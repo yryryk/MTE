@@ -2,7 +2,7 @@ import styles from './App.module.css';
 
 import UseForm from '../Hooks/UseForm';
 
-import logo from '../logo.svg';
+import Button from '../UI/Button/Button';
 import TensileTextArea from '../UI/TensileTextArea/TensileTextArea';
 
 function App() {
@@ -10,13 +10,15 @@ function App() {
     test: 'test',
   });
 
+  const handleButtonClick = (): void => {
+    console.log(333);
+  };
+
   return (
-    <div className={styles.app}>
-      <header className={styles.appHeader}>
-        <img src={logo} className={styles.appLogo} alt="logo" />
-        <TensileTextArea name="test" values={values} handleTextAreaChange={handleChange} />
-      </header>
-    </div>
+    <main className={styles.container}>
+      <TensileTextArea name="test" values={values} handleTextAreaChange={handleChange} />
+      <Button type="button" text="KH0nKA" handleClick={handleButtonClick} />
+    </main>
   );
 }
 

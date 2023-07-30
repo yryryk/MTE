@@ -32,7 +32,13 @@ function TensileTextArea({
     handleTextAreaChange(evt);
   };
   return (
-    <textarea name={name} rows={1} onChange={handleChange} className={`${styles.textarea}${className ? ` ${className}` : ''}`} value={values[name] || ''} />
+    <textarea
+      name={name}
+      rows={1}
+      onChange={handleChange}
+      className={`${styles.textarea}${className ? ` ${className}` : ''}`}
+      value={values[name] || ''}
+    />
   );
 }
 
