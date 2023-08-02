@@ -2,13 +2,13 @@ import { ChangeEvent } from 'react';
 
 import styles from './TensileTextArea.module.css';
 
-import InputValues from '../../Interfaces/InputValues';
+import IfThenElseFormValues from '../../Interfaces/IfThenElseFormValues';
 
 interface TensileTextAreaProps {
-  name: string;
-  values: InputValues;
-  className?: string;
-  handleTextAreaChange: (evt: ChangeEvent<HTMLTextAreaElement>) => void;
+  name: string
+  values: IfThenElseFormValues
+  className?: string
+  handleTextAreaChange: (evt: ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 function TensileTextArea({
@@ -22,12 +22,13 @@ function TensileTextArea({
     // Уменьшить высоту элемента при удалении символов
     elem.style.height = 'auto';
     // Увеличить высоту элемента при вводе символов
-    elem.style.height = `${elem.scrollHeight - (
-      parseInt(computedStyle.paddingTop, 10)
-      + parseInt(computedStyle.paddingBottom, 10)
-      + parseInt(computedStyle.borderTopWidth, 10)
-      + parseInt(computedStyle.borderBottomWidth, 10)
-    )}px`;
+    elem.style.height = `${
+      elem.scrollHeight
+      - (parseInt(computedStyle.paddingTop, 10)
+        + parseInt(computedStyle.paddingBottom, 10)
+        + parseInt(computedStyle.borderTopWidth, 10)
+        + parseInt(computedStyle.borderBottomWidth, 10))
+    }px`;
     // Добавить внешний обработчик из пропсов
     handleTextAreaChange(evt);
   };
@@ -37,7 +38,7 @@ function TensileTextArea({
       rows={1}
       onChange={handleChange}
       className={`${styles.textarea}${className ? ` ${className}` : ''}`}
-      value={values[name] || ''}
+      value={String(values[name]) || ''}
     />
   );
 }

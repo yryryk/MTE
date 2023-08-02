@@ -1,23 +1,20 @@
+import { useState } from 'react';
+
 import styles from './App.module.css';
 
-import UseForm from '../Hooks/UseForm';
-
+import MessageEditor from '../Components/MessageEditor/MessageEditor';
 import Button from '../UI/Button/Button';
-import TensileTextArea from '../UI/TensileTextArea/TensileTextArea';
 
 function App() {
-  const { values, handleChange } = UseForm({
-    test: 'test',
-  });
-
+  const [isOpen, setIsOpen] = useState(false);
   const handleButtonClick = (): void => {
-    console.log(333);
+    setIsOpen(true);
   };
 
   return (
-    <main className={styles.container}>
-      <TensileTextArea name="test" values={values} handleTextAreaChange={handleChange} />
-      <Button type="button" text="KH0nKA" handleClick={handleButtonClick} />
+    <main className={styles.page}>
+      {isOpen && <MessageEditor arrVarNames={['kkdjf', 'kfjgo', 'kgjkeoo', 'hsfneid']} callbackSave={() => setIsOpen(true)} />}
+      {!isOpen && <Button type="button" text="Open Message Template Editor" handleClick={handleButtonClick} />}
     </main>
   );
 }
