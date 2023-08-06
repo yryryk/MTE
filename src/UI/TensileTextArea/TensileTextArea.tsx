@@ -9,10 +9,11 @@ interface TensileTextAreaProps {
   values: IfThenElseFormValues
   className?: string
   handleTextAreaChange: (evt: ChangeEvent<HTMLTextAreaElement>) => void
+  retrieveCursorPosition: (evt: ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 function TensileTextArea({
-  name, values, className, handleTextAreaChange
+  name, values, className, handleTextAreaChange, retrieveCursorPosition
 }: TensileTextAreaProps) {
   // Вычислить и применить новые значения для высоты элемента при каждом вводе
   const handleChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
@@ -32,11 +33,13 @@ function TensileTextArea({
     // Добавить внешний обработчик из пропсов
     handleTextAreaChange(evt);
   };
+
   return (
     <textarea
       name={name}
       rows={1}
       onChange={handleChange}
+      onBlur={retrieveCursorPosition}
       className={`${styles.textarea}${className ? ` ${className}` : ''}`}
       value={String(values[name]) || ''}
     />

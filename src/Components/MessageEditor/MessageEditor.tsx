@@ -1,24 +1,53 @@
+import { useState } from 'react';
+
 import styles from './MessageEditor.module.css';
+
+import TextAreasResult from './TextAreasResult/TextAreasResult';
 
 import UseIfThenElseForm from '../../Hooks/UseIfThenElseForm';
 
 import IfThenElseFormValues from '../../Interfaces/IfThenElseFormValues';
 import Button from '../../UI/Button/Button';
-import TensileTextArea from '../../UI/TensileTextArea/TensileTextArea';
 
-interface CallbackSave {
-  callbackSave: (template: IfThenElseFormValues) => void
+interface MessageEditorProps {
+  arrVarNames: string[],
+  callbackSave: () => void,
+  template?: IfThenElseFormValues
 }
 
-function MessageEditor(
-  arrVarNames: string[],
-  callbackSave: CallbackSave,
-  template?: IfThenElseFormValues
-) {
-  const { values, handleChange } = UseIfThenElseForm(template || { main: 'test1' });
+function MessageEditor({
+  arrVarNames,
+  callbackSave,
+  template
+}:MessageEditorProps) {
+  const {
+    values, handleChange, insertIfThenElseBlock
+  } = UseIfThenElseForm({ ...template });
+  const [counter, setCounter] = useState(Number(values.counter));
+  const [cursorPosition, setCursorPosition] = useState({ name: 'main', cursorPosition: 0 });
+
+  const handleAddClick = (): void => {
+    const names = {
+      first: `first_${counter}`,
+      last: `last_${counter}`,
+      if: `if_${counter}`,
+      then: `then_${counter}`,
+      else: `else_${counter}`
+    };
+    insertIfThenElseBlock(
+      cursorPosition.name,
+      names,
+      cursorPosition.cursorPosition,
+      String(counter)
+    );
+    setCounter(counter + 1);
+  };
 
   const handleButtonClick = (): void => {
-    console.log(333);
+    console.log(values);
+  };
+  const retrieveCursorPosition = (evt: { target: { name: any; selectionStart: any; }; }): void => {
+    setCursorPosition({ name: evt.target.name, cursorPosition: evt.target.selectionStart });
   };
 
   return (
@@ -29,14 +58,14 @@ function MessageEditor(
           <Button key={item} type="button" text={`{${item}}`} handleClick={handleButtonClick} />
         ))}
       </div>
-      <Button type="button" text="Add If-Then-Else Block" handleClick={handleButtonClick} />
+      <Button type="button" text="Add If-Then-Else Block" handleClick={handleAddClick} />
       <form name="message-editor" className={styles.form}>
         <div className={styles.textAreasContainer}>
-          <TensileTextArea name="main" values={values} handleTextAreaChange={handleChange} />
+          <TextAreasResult name="main" values={values} handleChange={handleChange} retrieveCursorPosition={retrieveCursorPosition} />
         </div>
         <div className={styles.buttonsConditionsContainer}>
           <Button type="button" text="Preview" handleClick={handleButtonClick} />
-          <Button type="submit" text="Save" handleClick={handleButtonClick} />
+          <Button type="submit" text="Save" handleClick={callbackSave} />
           <Button type="button" text="Close" handleClick={handleButtonClick} />
         </div>
       </form>
@@ -45,7 +74,7 @@ function MessageEditor(
 }
 
 MessageEditor.defaultProps = {
-  template: { main: 'test2' },
+  template: { main: 'test2', counter: '1', },
 };
 
 export default MessageEditor;

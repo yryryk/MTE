@@ -17,7 +17,8 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
   const insertIfThenElseBlock = (
     name: string,
     names: { [key: string]: string },
-    location: number
+    location: number,
+    counter: string
   ) => {
     // Разделить строку в указанном месте
     const firstString = String(values[name]).slice(0, location);
@@ -29,7 +30,8 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
       [names.last]: lastString,
       [names.if]: '',
       [names.then]: '',
-      [names.else]: ''
+      [names.else]: '',
+      counter
     });
   };
   // Удалить блок и все вложеные в него вернув прежнее значение
