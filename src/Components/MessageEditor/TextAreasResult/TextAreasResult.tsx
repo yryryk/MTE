@@ -1,15 +1,23 @@
-/* eslint-disable import/no-cycle */
 import { ChangeEvent } from 'react';
+
+import styles from './TextAreasResult.module.css';
 
 import IfThenElseFormValues from '../../../Interfaces/IfThenElseFormValues';
 import TensileTextArea from '../../../UI/TensileTextArea/TensileTextArea';
-import TextAreasBlock from '../TextAreasBlock/TextAreasBlock';
 
 interface TextAreasResultProps {
   name: string
   values: IfThenElseFormValues
   handleChange: (evt: ChangeEvent<HTMLTextAreaElement>) => void
   retrieveCursorPosition: (evt: ChangeEvent<HTMLTextAreaElement>) => void
+}
+
+interface TextAreasBlockProps {
+  values: IfThenElseFormValues
+  handleChange: (evt: ChangeEvent<HTMLTextAreaElement>) => void
+  retrieveCursorPosition: (evt: ChangeEvent<HTMLTextAreaElement>) => void
+  parentName: string
+  names: { [key: string]: string; }
 }
 
 function TextAreasResult({
@@ -19,6 +27,7 @@ function TextAreasResult({
   return (
     typeof nameFromValues === 'object'
       ? (
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         <TextAreasBlock
           parentName={name}
           values={values}
@@ -35,6 +44,47 @@ function TextAreasResult({
           retrieveCursorPosition={retrieveCursorPosition}
         />
       )
+  );
+}
+
+function TextAreasBlock({
+  values, handleChange, retrieveCursorPosition, parentName, names
+}: TextAreasBlockProps) {
+  return (
+    <div className={styles.block} data-name={parentName}>
+      <TextAreasResult
+        name={names.first}
+        values={values}
+        handleChange={handleChange}
+        retrieveCursorPosition={retrieveCursorPosition}
+      />
+      <div className={styles.subblock}>
+        <TextAreasResult
+          name={names.if}
+          values={values}
+          handleChange={handleChange}
+          retrieveCursorPosition={retrieveCursorPosition}
+        />
+        <TextAreasResult
+          name={names.then}
+          values={values}
+          handleChange={handleChange}
+          retrieveCursorPosition={retrieveCursorPosition}
+        />
+        <TextAreasResult
+          name={names.else}
+          values={values}
+          handleChange={handleChange}
+          retrieveCursorPosition={retrieveCursorPosition}
+        />
+      </div>
+      <TextAreasResult
+        name={names.last}
+        values={values}
+        handleChange={handleChange}
+        retrieveCursorPosition={retrieveCursorPosition}
+      />
+    </div>
   );
 }
 

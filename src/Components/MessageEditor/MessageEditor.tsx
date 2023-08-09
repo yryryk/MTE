@@ -40,6 +40,7 @@ function MessageEditor({
       cursorPosition.cursorPosition,
       String(counter)
     );
+    setCursorPosition({ name: names.if, cursorPosition: 0 });
     setCounter(counter + 1);
   };
 
@@ -74,7 +75,7 @@ function MessageEditor({
 }
 
 MessageEditor.defaultProps = {
-  template: { main: 'test2', counter: '1', },
+  template: { main: 'test2', counter: '0', },
 };
 
 export default MessageEditor;
