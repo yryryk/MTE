@@ -10,18 +10,20 @@ interface TextAreasResultProps {
   values: IfThenElseFormValues
   handleChange: (evt: ChangeEvent<HTMLTextAreaElement>) => void
   retrieveCursorPosition: (evt: ChangeEvent<HTMLTextAreaElement>) => void
+  removeIfThenElseBlock: (nameOfBlock: string) => void
 }
 
 interface TextAreasBlockProps {
   values: IfThenElseFormValues
   handleChange: (evt: ChangeEvent<HTMLTextAreaElement>) => void
   retrieveCursorPosition: (evt: ChangeEvent<HTMLTextAreaElement>) => void
+  removeIfThenElseBlock: (nameOfBlock: string) => void
   parentName: string
   names: { [key: string]: string; }
 }
 
 function TextAreasResult({
-  values, name, handleChange, retrieveCursorPosition
+  values, name, handleChange, retrieveCursorPosition, removeIfThenElseBlock
 }: TextAreasResultProps) {
   const nameFromValues = values[name];
   return (
@@ -33,6 +35,7 @@ function TextAreasResult({
           values={values}
           handleChange={handleChange}
           retrieveCursorPosition={retrieveCursorPosition}
+          removeIfThenElseBlock={removeIfThenElseBlock}
           names={nameFromValues}
         />
       )
@@ -48,8 +51,11 @@ function TextAreasResult({
 }
 
 function TextAreasBlock({
-  values, handleChange, retrieveCursorPosition, parentName, names
+  values, handleChange, retrieveCursorPosition, removeIfThenElseBlock, parentName, names
 }: TextAreasBlockProps) {
+  const handleClose = () => {
+    removeIfThenElseBlock(parentName);
+  };
   return (
     <div className={styles.block} data-name={parentName}>
       <TextAreasResult
@@ -57,25 +63,30 @@ function TextAreasBlock({
         values={values}
         handleChange={handleChange}
         retrieveCursorPosition={retrieveCursorPosition}
+        removeIfThenElseBlock={removeIfThenElseBlock}
       />
       <div className={styles.subblock}>
+        <button className={styles.closeBlockButton} onClick={handleClose} type="button">close</button>
         <TextAreasResult
           name={names.if}
           values={values}
           handleChange={handleChange}
           retrieveCursorPosition={retrieveCursorPosition}
+          removeIfThenElseBlock={removeIfThenElseBlock}
         />
         <TextAreasResult
           name={names.then}
           values={values}
           handleChange={handleChange}
           retrieveCursorPosition={retrieveCursorPosition}
+          removeIfThenElseBlock={removeIfThenElseBlock}
         />
         <TextAreasResult
           name={names.else}
           values={values}
           handleChange={handleChange}
           retrieveCursorPosition={retrieveCursorPosition}
+          removeIfThenElseBlock={removeIfThenElseBlock}
         />
       </div>
       <TextAreasResult
@@ -83,6 +94,7 @@ function TextAreasBlock({
         values={values}
         handleChange={handleChange}
         retrieveCursorPosition={retrieveCursorPosition}
+        removeIfThenElseBlock={removeIfThenElseBlock}
       />
     </div>
   );

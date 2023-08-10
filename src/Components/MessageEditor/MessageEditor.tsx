@@ -21,7 +21,7 @@ function MessageEditor({
   template
 }:MessageEditorProps) {
   const {
-    values, handleChange, insertIfThenElseBlock
+    values, handleChange, insertIfThenElseBlock, removeIfThenElseBlock
   } = UseIfThenElseForm({ ...template });
   const [counter, setCounter] = useState(Number(values.counter));
   const [cursorPosition, setCursorPosition] = useState({ name: 'main', cursorPosition: 0 });
@@ -62,7 +62,7 @@ function MessageEditor({
       <Button type="button" text="Add If-Then-Else Block" handleClick={handleAddClick} />
       <form name="message-editor" className={styles.form}>
         <div className={styles.textAreasContainer}>
-          <TextAreasResult name="main" values={values} handleChange={handleChange} retrieveCursorPosition={retrieveCursorPosition} />
+          <TextAreasResult name="main" values={values} handleChange={handleChange} retrieveCursorPosition={retrieveCursorPosition} removeIfThenElseBlock={removeIfThenElseBlock} />
         </div>
         <div className={styles.buttonsConditionsContainer}>
           <Button type="button" text="Preview" handleClick={handleButtonClick} />
@@ -75,7 +75,7 @@ function MessageEditor({
 }
 
 MessageEditor.defaultProps = {
-  template: { main: 'test2', counter: '0', },
+  template: { main: 'test1234567890', counter: '0', },
 };
 
 export default MessageEditor;

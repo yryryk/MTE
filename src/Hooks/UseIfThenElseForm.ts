@@ -41,13 +41,10 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
       if (typeof values[name] !== 'string') {
         Object.values(values[name]).forEach((item) => removeAll(item));
       }
-      setValues(removeProperty(name)(values));
+      setValues((state) => removeProperty(name)(state));
     };
     const obj = values[nameOfBlock];
     if (typeof obj !== 'string') {
-      removeAll(obj.if);
-      removeAll(obj.then);
-      removeAll(obj.else);
       // Вытащить ссылки
       const { first, last } = obj;
       // Достать значения по этим ссылкам
@@ -58,8 +55,8 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
       if (typeof firstValue === 'string' && typeof lastValue === 'string') {
         oldVersion = firstValue + lastValue;
         setValues({ ...values, [nameOfBlock]: oldVersion });
-        setValues(removeProperty(first)(values));
-        setValues(removeProperty(last)(values));
+        removeAll(first);
+        removeAll(last);
       }
       // Если блок имеет соседей
       const sublevelString = (name: string, type: string): string => {
@@ -76,25 +73,35 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
       if (typeof firstValue !== 'string' && typeof lastValue === 'string') {
         const newFirstValue = values[sublevelString(first, 'last')];
         oldVersion = String(newFirstValue) + lastValue;
-        setValues({ ...values, [nameOfBlock]: { ...firstValue, first: oldVersion } });
-        setValues(removeProperty(last)(values));
-        removeAll(obj.first);
+        setValues({ ...values, [nameOfBlock]: { ...firstValue }, [firstValue.last]: oldVersion });
+        setValues((state) => removeProperty(first)(state));
+        setValues((state) => removeProperty(last)(state));
       }
       if (typeof firstValue === 'string' && typeof lastValue !== 'string') {
         const newLastValue = values[sublevelString(last, 'first')];
         oldVersion = firstValue + String(newLastValue);
-        setValues({ ...values, [nameOfBlock]: { ...lastValue, last: oldVersion } });
-        setValues(removeProperty(first)(values));
-        removeAll(obj.last);
+        setValues({ ...values, [nameOfBlock]: { ...lastValue }, [lastValue.first]: oldVersion });
+        setValues((state) => removeProperty(first)(state));
+        setValues((state) => removeProperty(last)(state));
       }
       if (typeof firstValue !== 'string' && typeof lastValue !== 'string') {
-        const newFirstValue = values[sublevelString(first, 'last')];
-        const newLastValue = values[sublevelString(last, 'first')];
+        const newFirstLink = sublevelString(first, 'last');
+        const newLastLink = sublevelString(last, 'first');
+        const newFirstValue = values[newFirstLink];
+        const newLastValue = values[newLastLink];
         oldVersion = String(newFirstValue) + String(newLastValue);
-        setValues({ ...values, [last]: { ...lastValue, first: oldVersion } });
-        setValues({ ...values, [nameOfBlock]: { ...firstValue, last } });
-        removeAll(obj.first);
+        setValues({
+          ...values,
+          [nameOfBlock]: { ...firstValue },
+          [newFirstLink]: { ...lastValue },
+          [newLastLink]: oldVersion
+        });
+        setValues((state) => removeProperty(first)(state));
+        setValues((state) => removeProperty(last)(state));
       }
+      removeAll(obj.if);
+      removeAll(obj.then);
+      removeAll(obj.else);
     }
   };
   // Вернуть созданные инструменты
