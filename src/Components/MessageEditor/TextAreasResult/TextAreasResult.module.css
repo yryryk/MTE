@@ -3,13 +3,13 @@
 
 .subblock {
   position: relative;
-  padding-left: 10px;
+  padding-left: 50px;
   border-left: 1px solid gray;
 }
 
 .closeBlockButton {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 4px;
+  left: 4px;
 }
 

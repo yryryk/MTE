@@ -24,8 +24,8 @@ function MessageEditor({
     values, handleChange, insertIfThenElseBlock, removeIfThenElseBlock
   } = UseIfThenElseForm({ ...template });
   const [counter, setCounter] = useState(Number(values.counter));
-  const [cursorPosition, setCursorPosition] = useState({ name: 'main', cursorPosition: 0 });
-
+  const [cursorPosition, setCursorPosition] = useState({ name: values.counter === '0' ? 'main' : `first_${+counter - 1}`, cursorPosition: 0 });
+  const newCounter = +counter + 1;
   const handleAddClick = (): void => {
     const names = {
       first: `first_${counter}`,
@@ -38,10 +38,10 @@ function MessageEditor({
       cursorPosition.name,
       names,
       cursorPosition.cursorPosition,
-      String(counter)
+      String(newCounter)
     );
+    setCounter(newCounter);
     setCursorPosition({ name: names.if, cursorPosition: 0 });
-    setCounter(counter + 1);
   };
 
   const handleButtonClick = (): void => {

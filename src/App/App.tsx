@@ -19,21 +19,21 @@ function App() {
       {isOpen && (
       <MessageEditor
         arrVarNames={['kkdjf', 'kfjgo', 'kgjkeoo', 'hsfneid']}
-        // template={{
-        //   counter: '1',
-        //   main: {
-        //     first: 'first_0',
-        //     last: 'last_0',
-        //     if: 'if_0',
-        //     then: 'then_0',
-        //     else: 'else_0'
-        //   },
-        //   first_0: 'ad',
-        //   last_0: 'fg',
-        //   if_0: 'hj',
-        //   then_0: 'kl',
-        //   else_0: 'e5'
-        // }}
+        template={{
+          counter: '1',
+          main: {
+            first: 'first_0',
+            last: 'last_0',
+            if: 'if_0',
+            then: 'then_0',
+            else: 'else_0'
+          },
+          first_0: 'превед ',
+          last_0: 'медвед',
+          if_0: 'если',
+          then_0: 'ты',
+          else_0: 'тут'
+        }}
         callbackSave={handleCloseMessageEditor}
       />
       )}
