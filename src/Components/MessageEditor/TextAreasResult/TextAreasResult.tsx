@@ -3,6 +3,7 @@ import { ChangeEvent } from 'react';
 import styles from './TextAreasResult.module.css';
 
 import IfThenElseFormValues from '../../../Interfaces/IfThenElseFormValues';
+import Button from '../../../UI/Button/Button';
 import TensileTextArea from '../../../UI/TensileTextArea/TensileTextArea';
 
 interface TextAreasResultProps {
@@ -57,7 +58,7 @@ function TextAreasBlock({
     removeIfThenElseBlock(parentName);
   };
   return (
-    <div className={styles.block} data-name={parentName}>
+    <div className={styles.block}>
       <TextAreasResult
         name={names.first}
         values={values}
@@ -65,29 +66,42 @@ function TextAreasBlock({
         retrieveCursorPosition={retrieveCursorPosition}
         removeIfThenElseBlock={removeIfThenElseBlock}
       />
-      <div className={styles.subblock}>
-        <button className={styles.closeBlockButton} onClick={handleClose} type="button">close</button>
-        <TextAreasResult
-          name={names.if}
-          values={values}
-          handleChange={handleChange}
-          retrieveCursorPosition={retrieveCursorPosition}
-          removeIfThenElseBlock={removeIfThenElseBlock}
-        />
-        <TextAreasResult
-          name={names.then}
-          values={values}
-          handleChange={handleChange}
-          retrieveCursorPosition={retrieveCursorPosition}
-          removeIfThenElseBlock={removeIfThenElseBlock}
-        />
-        <TextAreasResult
-          name={names.else}
-          values={values}
-          handleChange={handleChange}
-          retrieveCursorPosition={retrieveCursorPosition}
-          removeIfThenElseBlock={removeIfThenElseBlock}
-        />
+      <div className={styles.container}>
+        <Button type="button" text="Close" className={styles.closeBlockButton} defaultStyle={false} handleClick={handleClose} />
+        <div className={styles.block} data-name={parentName}>
+          <div className={styles.subblock}>
+            <div className={styles.ifThenElseBlock}>
+              <p className={`${styles.name} ${styles.if}`}>if</p>
+              <TextAreasResult
+                name={names.if}
+                values={values}
+                handleChange={handleChange}
+                retrieveCursorPosition={retrieveCursorPosition}
+                removeIfThenElseBlock={removeIfThenElseBlock}
+              />
+            </div>
+            <div className={styles.ifThenElseBlock}>
+              <p className={`${styles.name} ${styles.then}`}>then</p>
+              <TextAreasResult
+                name={names.then}
+                values={values}
+                handleChange={handleChange}
+                retrieveCursorPosition={retrieveCursorPosition}
+                removeIfThenElseBlock={removeIfThenElseBlock}
+              />
+            </div>
+            <div className={styles.ifThenElseBlock}>
+              <p className={`${styles.name} ${styles.else}`}>else</p>
+              <TextAreasResult
+                name={names.else}
+                values={values}
+                handleChange={handleChange}
+                retrieveCursorPosition={retrieveCursorPosition}
+                removeIfThenElseBlock={removeIfThenElseBlock}
+              />
+            </div>
+          </div>
+        </div>
       </div>
       <TextAreasResult
         name={names.last}

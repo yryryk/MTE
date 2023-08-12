@@ -1,15 +1,72 @@
+.container {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  padding-left: 4px;
+  margin-left: 4px;
+  flex-grow: 1;
+}
+
 .block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
 }
 
 .subblock {
-  position: relative;
-  padding-left: 50px;
-  border-left: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+  border-radius: 12px;
 }
 
 .closeBlockButton {
-  position: absolute;
-  top: 4px;
-  left: 4px;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  border: 0;
+  border-radius: 6px;
+  padding: 2px;
+  margin: 4px;
+  font-size: 14px;
+  line-height: 1;
+  background-color: #76975f;
+}
+
+.closeBlockButton:hover ~ .block > .subblock {
+  background-color: #76975f;
+}
+
+.ifThenElseBlock {
+  display: flex;
+  gap: 4px;
+}
+
+.ifThenElseBlock textarea {
+  flex-grow: 1;
+}
+
+.name {
+  display: flex;
+  min-height: 100%;
+  width: 40px;
+  color: #fff;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.if {
+  background-color: #77c7e1;
+}
+
+.then {
+  background-color: #8ee177;
+}
+
+.else {
+  background-color: #e1771a;
 }
 

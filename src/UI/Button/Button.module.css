@@ -1,11 +1,14 @@
-.button {
+.defaultStyle {
+  border-radius: 12px;
+  border: 0;
   margin: 5px;
   padding: 12px;
-  border: 0;
-  border-radius: 12px;
   font-size: 24px;
   line-height: 1;
   background-color: turquoise;
+}
+
+.button {
   box-shadow: inset 0 1px 8px 2px rgba(255, 255, 255, .5);
   transition: all .3s ease;
 }

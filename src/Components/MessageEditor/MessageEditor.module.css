@@ -24,7 +24,7 @@
 }
 
 .form {
-  width: 100%;
+  min-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -32,7 +32,9 @@
 }
 
 .textAreasContainer {
-  width: 100%;
+  display: flex;
+  min-width: 100%;
+  padding-right: 30px;
 }
 
 .buttonsConditionsContainer {
