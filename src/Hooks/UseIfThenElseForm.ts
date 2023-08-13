@@ -6,7 +6,7 @@ import IfThenElseFormValues from '../Interfaces/IfThenElseFormValues';
 // Передать аргументами начальные значения для полей вода
 export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
   const [values, setValues] = useState(inputValues);
-  const [nameOfRemovedBlockString, setNameOfRemovedBlockString] = useState('');
+  const [nameOfRemovedBlockString, setNameOfRemovedBlockString] = useState({ name: '' });
   // Функция возвращающая переданный объект без переданного свойства
   const removeProperty = (prop: string) => ({ [prop]: _, ...rest }) => rest;
   // Переназначить value в useState для изменившегося поля ввода
@@ -69,7 +69,7 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
         setValues({ ...values, [nameOfBlock]: oldVersion });
         removeAll(first);
         removeAll(last);
-        setNameOfRemovedBlockString(nameOfBlock);
+        setNameOfRemovedBlockString({ name: nameOfBlock });
       }
       // Если блок имеет соседей
       if (typeof firstValue !== 'string' && typeof lastValue === 'string') {
@@ -79,7 +79,7 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
         setValues({ ...values, [nameOfBlock]: { ...firstValue }, [newFirstLink]: oldVersion });
         setValues((state) => removeProperty(first)(state));
         removeAll(last);
-        setNameOfRemovedBlockString(sublevelString(nameOfBlock, 'first'));
+        setNameOfRemovedBlockString({ name: sublevelString(nameOfBlock, 'first') });
       }
       if (typeof firstValue === 'string' && typeof lastValue !== 'string') {
         const newLastLink = sublevelString(last, 'first');
@@ -88,7 +88,7 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
         setValues({ ...values, [nameOfBlock]: { ...lastValue }, [newLastLink]: oldVersion });
         removeAll(first);
         setValues((state) => removeProperty(last)(state));
-        setNameOfRemovedBlockString(sublevelString(nameOfBlock, 'first'));
+        setNameOfRemovedBlockString({ name: sublevelString(nameOfBlock, 'first') });
       }
       if (typeof firstValue !== 'string' && typeof lastValue !== 'string') {
         const newFirstLink = sublevelString(first, 'last');
@@ -104,7 +104,7 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
         });
         setValues((state) => removeProperty(first)(state));
         setValues((state) => removeProperty(last)(state));
-        setNameOfRemovedBlockString(sublevelString(nameOfBlock, 'first'));
+        setNameOfRemovedBlockString({ name: sublevelString(nameOfBlock, 'first') });
       }
       removeAll(obj.if);
       removeAll(obj.then);

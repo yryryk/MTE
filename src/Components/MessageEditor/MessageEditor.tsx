@@ -32,8 +32,9 @@ function MessageEditor({
   const [counter, setCounter] = useState(Number(values.counter));
   const [cursorPosition, setCursorPosition] = useState({ name: sublevelString('main', 'first'), cursorPosition: 0 });
   useEffect(() => {
-    if (nameOfRemovedBlockString) {
-      setCursorPosition({ name: nameOfRemovedBlockString, cursorPosition: 0 });
+    if (nameOfRemovedBlockString.name) {
+      setCursorPosition({ name: nameOfRemovedBlockString.name, cursorPosition: 0 });
+      console.log(nameOfRemovedBlockString);
     }
   }, [nameOfRemovedBlockString]);
   const newCounter = +counter + 1;
