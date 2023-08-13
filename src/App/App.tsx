@@ -18,7 +18,7 @@ function App() {
     <main className={styles.page}>
       {isOpen && (
       <MessageEditor
-        arrVarNames={['kkdjf', 'kfjgo', 'kgjkeoo', 'hsfneid']}
+        arrVarNames={['firstname', 'lastname', 'company', 'position']}
         template={{
           counter: '1',
           main: {

@@ -5,7 +5,7 @@ interface ButtonProps {
   className?: string;
   defaultStyle?: boolean;
   type: 'button' | 'submit';
-  handleClick: () => void;
+  handleClick: (evt?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 function Button({

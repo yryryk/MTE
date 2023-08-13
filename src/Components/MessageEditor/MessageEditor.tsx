@@ -23,6 +23,7 @@ function MessageEditor({
   const {
     values,
     nameOfRemovedBlockString,
+    setValues,
     handleChange,
     insertIfThenElseBlock,
     removeIfThenElseBlock,
@@ -37,25 +38,29 @@ function MessageEditor({
   }, [nameOfRemovedBlockString]);
   const newCounter = +counter + 1;
   const handleAddClick = (): void => {
-    if (!cursorPosition.name.includes('if')) {
-      const names = {
-        first: `first_${counter}`,
-        last: `last_${counter}`,
-        if: `if_${counter}`,
-        then: `then_${counter}`,
-        else: `else_${counter}`
-      };
-      insertIfThenElseBlock(
-        cursorPosition.name,
-        names,
-        cursorPosition.cursorPosition,
-        String(newCounter)
-      );
-      setCounter(newCounter);
-      setCursorPosition({ name: names.then, cursorPosition: 0 });
-    }
+    const names = {
+      first: `first_${counter}`,
+      last: `last_${counter}`,
+      if: `if_${counter}`,
+      then: `then_${counter}`,
+      else: `else_${counter}`
+    };
+    insertIfThenElseBlock(
+      cursorPosition.name,
+      names,
+      cursorPosition.cursorPosition,
+      String(newCounter)
+    );
+    setCounter(newCounter);
+    setCursorPosition({ name: names.if, cursorPosition: 0 });
   };
 
+  const handleInsertButtonClick = (evt: any): void => {
+    const newString = String(values[cursorPosition.name]).slice(0, cursorPosition.cursorPosition)
+      + evt.target.textContent
+      + String(values[cursorPosition.name]).slice(cursorPosition.cursorPosition);
+    setValues({ ...values, [cursorPosition.name]: newString });
+  };
   const handleButtonClick = (): void => {
     console.log(values);
   };
@@ -68,7 +73,7 @@ function MessageEditor({
       <h1 className={styles.heading}>Message Template Editor</h1>
       <div className={styles.buttonsSubstitutesContainer}>
         {[...arrVarNames].map((item) => (
-          <Button key={item} type="button" text={`{${item}}`} handleClick={handleButtonClick} />
+          <Button key={item} type="button" text={`{${item}}`} handleClick={handleInsertButtonClick} />
         ))}
       </div>
       <Button type="button" text="Add If-Then-Else Block" handleClick={handleAddClick} />
@@ -87,7 +92,7 @@ function MessageEditor({
 }
 
 MessageEditor.defaultProps = {
-  template: { main: 'test1234567890', counter: '0', },
+  template: { main: '', counter: '0', },
 };
 
 export default MessageEditor;
