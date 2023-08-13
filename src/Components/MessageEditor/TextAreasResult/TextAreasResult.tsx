@@ -52,7 +52,12 @@ function TextAreasResult({
 }
 
 function TextAreasBlock({
-  values, handleChange, retrieveCursorPosition, removeIfThenElseBlock, parentName, names
+  values,
+  handleChange,
+  retrieveCursorPosition,
+  removeIfThenElseBlock,
+  parentName,
+  names
 }: TextAreasBlockProps) {
   const handleClose = () => {
     removeIfThenElseBlock(parentName);

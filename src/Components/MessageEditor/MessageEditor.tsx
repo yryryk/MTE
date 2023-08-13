@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styles from './MessageEditor.module.css';
 
@@ -21,27 +21,39 @@ function MessageEditor({
   template
 }:MessageEditorProps) {
   const {
-    values, handleChange, insertIfThenElseBlock, removeIfThenElseBlock
+    values,
+    nameOfRemovedBlockString,
+    handleChange,
+    insertIfThenElseBlock,
+    removeIfThenElseBlock,
+    sublevelString
   } = UseIfThenElseForm({ ...template });
   const [counter, setCounter] = useState(Number(values.counter));
-  const [cursorPosition, setCursorPosition] = useState({ name: values.counter === '0' ? 'main' : `first_${+counter - 1}`, cursorPosition: 0 });
+  const [cursorPosition, setCursorPosition] = useState({ name: sublevelString('main', 'first'), cursorPosition: 0 });
+  useEffect(() => {
+    if (nameOfRemovedBlockString) {
+      setCursorPosition({ name: nameOfRemovedBlockString, cursorPosition: 0 });
+    }
+  }, [nameOfRemovedBlockString]);
   const newCounter = +counter + 1;
   const handleAddClick = (): void => {
-    const names = {
-      first: `first_${counter}`,
-      last: `last_${counter}`,
-      if: `if_${counter}`,
-      then: `then_${counter}`,
-      else: `else_${counter}`
-    };
-    insertIfThenElseBlock(
-      cursorPosition.name,
-      names,
-      cursorPosition.cursorPosition,
-      String(newCounter)
-    );
-    setCounter(newCounter);
-    setCursorPosition({ name: names.if, cursorPosition: 0 });
+    if (!cursorPosition.name.includes('if')) {
+      const names = {
+        first: `first_${counter}`,
+        last: `last_${counter}`,
+        if: `if_${counter}`,
+        then: `then_${counter}`,
+        else: `else_${counter}`
+      };
+      insertIfThenElseBlock(
+        cursorPosition.name,
+        names,
+        cursorPosition.cursorPosition,
+        String(newCounter)
+      );
+      setCounter(newCounter);
+      setCursorPosition({ name: names.then, cursorPosition: 0 });
+    }
   };
 
   const handleButtonClick = (): void => {

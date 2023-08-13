@@ -5,9 +5,10 @@ import IfThenElseFormValues from '../Interfaces/IfThenElseFormValues';
 // Пользовательский хук
 // Передать аргументами начальные значения для полей вода
 export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
+  const [values, setValues] = useState(inputValues);
+  const [nameOfRemovedBlockString, setNameOfRemovedBlockString] = useState('');
   // Функция возвращающая переданный объект без переданного свойства
   const removeProperty = (prop: string) => ({ [prop]: _, ...rest }) => rest;
-  const [values, setValues] = useState(inputValues);
   // Переназначить value в useState для изменившегося поля ввода
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { value, name } = event.target;
@@ -34,6 +35,17 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
       counter
     });
   };
+  const sublevelString = (name: string, type: string): string => {
+    const block = values[name];
+    if (typeof block !== 'string') {
+      const value = values[block[type]];
+      if (typeof value !== 'string') {
+        return sublevelString(block[type], type);
+      }
+      return block[type];
+    }
+    return name;
+  };
   // Удалить блок и все вложеные в него вернув прежнее значение
   const removeIfThenElseBlock = (nameOfBlock: string) => {
     // Рекурсивная функция для удаления
@@ -57,32 +69,26 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
         setValues({ ...values, [nameOfBlock]: oldVersion });
         removeAll(first);
         removeAll(last);
+        setNameOfRemovedBlockString(nameOfBlock);
       }
       // Если блок имеет соседей
-      const sublevelString = (name: string, type: string): string => {
-        const block = values[name];
-        if (typeof block !== 'string') {
-          const value = values[block[type]];
-          if (typeof value !== 'string') {
-            return sublevelString(block[type], type);
-          }
-          return block[type];
-        }
-        return name;
-      };
       if (typeof firstValue !== 'string' && typeof lastValue === 'string') {
-        const newFirstValue = values[sublevelString(first, 'last')];
+        const newFirstLink = sublevelString(first, 'last');
+        const newFirstValue = values[newFirstLink];
         oldVersion = String(newFirstValue) + lastValue;
-        setValues({ ...values, [nameOfBlock]: { ...firstValue }, [firstValue.last]: oldVersion });
+        setValues({ ...values, [nameOfBlock]: { ...firstValue }, [newFirstLink]: oldVersion });
         setValues((state) => removeProperty(first)(state));
-        setValues((state) => removeProperty(last)(state));
+        removeAll(last);
+        setNameOfRemovedBlockString(sublevelString(nameOfBlock, 'first'));
       }
       if (typeof firstValue === 'string' && typeof lastValue !== 'string') {
-        const newLastValue = values[sublevelString(last, 'first')];
+        const newLastLink = sublevelString(last, 'first');
+        const newLastValue = values[newLastLink];
         oldVersion = firstValue + String(newLastValue);
-        setValues({ ...values, [nameOfBlock]: { ...lastValue }, [lastValue.first]: oldVersion });
-        setValues((state) => removeProperty(first)(state));
+        setValues({ ...values, [nameOfBlock]: { ...lastValue }, [newLastLink]: oldVersion });
+        removeAll(first);
         setValues((state) => removeProperty(last)(state));
+        setNameOfRemovedBlockString(sublevelString(nameOfBlock, 'first'));
       }
       if (typeof firstValue !== 'string' && typeof lastValue !== 'string') {
         const newFirstLink = sublevelString(first, 'last');
@@ -98,6 +104,7 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
         });
         setValues((state) => removeProperty(first)(state));
         setValues((state) => removeProperty(last)(state));
+        setNameOfRemovedBlockString(sublevelString(nameOfBlock, 'first'));
       }
       removeAll(obj.if);
       removeAll(obj.then);
@@ -107,9 +114,11 @@ export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
   // Вернуть созданные инструменты
   return {
     values,
+    nameOfRemovedBlockString,
     handleChange,
     setValues,
     insertIfThenElseBlock,
-    removeIfThenElseBlock
+    removeIfThenElseBlock,
+    sublevelString
   };
 }
