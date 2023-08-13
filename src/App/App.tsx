@@ -28,11 +28,11 @@ function App() {
             then: 'then_0',
             else: 'else_0'
           },
-          first_0: 'превед ',
-          last_0: 'медвед',
-          if_0: 'если',
-          then_0: 'ты',
-          else_0: 'тут'
+          first_0: 'превед',
+          last_0: ' медвед {position}',
+          if_0: '{firstname}',
+          then_0: '{lastname}',
+          else_0: '{company}'
         }}
         callbackSave={handleCloseMessageEditor}
       />
