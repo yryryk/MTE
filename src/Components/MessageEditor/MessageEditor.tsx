@@ -61,6 +61,8 @@ function MessageEditor({
       + evt.target.textContent
       + String(values[cursorPosition.name]).slice(cursorPosition.cursorPosition);
     setValues({ ...values, [cursorPosition.name]: newString });
+    const textArea: HTMLTextAreaElement | null = document.querySelector(`[name = ${cursorPosition.name}]`);
+    if (textArea) textArea.focus();
   };
   const handleButtonClick = (): void => {
     console.log(values);
