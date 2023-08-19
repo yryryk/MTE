@@ -72,7 +72,7 @@ function TextAreasBlock({
         removeIfThenElseBlock={removeIfThenElseBlock}
       />
       <div className={styles.container}>
-        <Button type="button" text="Delete Block" className={styles.closeBlockButton} defaultStyle={false} handleClick={handleClose} />
+        <Button type="button" text="Delete Block" className={styles.closeBlockButton} spanClassName={styles.closeBlockButtonSpan} defaultStyle={false} handleClick={handleClose} />
         <div className={styles.block} data-name={parentName}>
           <div className={styles.subblock}>
             <div className={styles.ifThenElseBlock}>

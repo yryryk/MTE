@@ -23,8 +23,6 @@
 }
 
 .closeBlockButton {
-  writing-mode: vertical-lr;
-  transform: rotate(180deg);
   border: 0;
   border-radius: 6px;
   padding: 2px;
@@ -36,6 +34,11 @@
 
 .closeBlockButton:hover ~ .block > .subblock {
   background-color: #76975f;
+}
+
+.closeBlockButtonSpan {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
 }
 
 .ifThenElseBlock {

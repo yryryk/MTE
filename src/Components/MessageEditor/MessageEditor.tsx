@@ -39,21 +39,23 @@ function MessageEditor({
   }, [nameOfRemovedBlockString]);
   const newCounter = +counter + 1;
   const handleAddClick = (): void => {
-    const names = {
-      first: `first_${counter}`,
-      last: `last_${counter}`,
-      if: `if_${counter}`,
-      then: `then_${counter}`,
-      else: `else_${counter}`
-    };
-    insertIfThenElseBlock(
-      cursorPosition.name,
-      names,
-      cursorPosition.cursorPosition,
-      String(newCounter)
-    );
-    setCounter(newCounter);
-    setCursorPosition({ name: names.if, cursorPosition: 0 });
+    if (!cursorPosition.name.includes('if')) {
+      const names = {
+        first: `first_${counter}`,
+        last: `last_${counter}`,
+        if: `if_${counter}`,
+        then: `then_${counter}`,
+        else: `else_${counter}`
+      };
+      insertIfThenElseBlock(
+        cursorPosition.name,
+        names,
+        cursorPosition.cursorPosition,
+        String(newCounter)
+      );
+      setCounter(newCounter);
+      setCursorPosition({ name: names.if, cursorPosition: 0 });
+    }
   };
 
   const handleInsertButtonClick = (evt: any): void => {
