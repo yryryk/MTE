@@ -37,7 +37,7 @@ function App() {
         callbackSave={handleCloseMessageEditor}
       />
       )}
-      {!isOpen && <Button type="button" text="Open Message Template Editor" handleClick={handleButtonClick} />}
+      {!isOpen && <Button type="button" text="Open MTE" handleClick={handleButtonClick} />}
     </main>
   );
 }
