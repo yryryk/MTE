@@ -40,7 +40,8 @@ function TensileTextArea({
   };
   useEffect(() => {
     resizeTextarea();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values[name]]);
   const handleChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     resizeTextarea();
     // Добавить внешний обработчик из пропсов

@@ -29,10 +29,10 @@ function App() {
             else: 'else_0'
           },
           first_0: 'превед',
-          last_0: ' медвед {position}',
+          last_0: ' медвед',
           if_0: '{firstname}',
           then_0: '{lastname}',
-          else_0: '{company}'
+          else_0: '{company} {position}'
         }}
         callbackSave={handleCloseMessageEditor}
       />

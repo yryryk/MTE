@@ -54,7 +54,7 @@ function MessageEditor({
         String(newCounter)
       );
       setCounter(newCounter);
-      setCursorPosition({ name: names.if, cursorPosition: 0 });
+      setCursorPosition({ name: names.then, cursorPosition: 0 });
     }
   };
 
