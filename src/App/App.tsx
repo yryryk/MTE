@@ -31,8 +31,8 @@ function App() {
           first_0: 'превед',
           last_0: ' медвед',
           if_0: '{firstname}',
-          then_0: '{lastname}',
-          else_0: '{company} {position}'
+          then_0: ' {firstname}',
+          else_0: ' {lastname}'
         }}
         callbackSave={handleCloseMessageEditor}
       />

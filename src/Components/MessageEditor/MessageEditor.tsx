@@ -8,6 +8,7 @@ import UseIfThenElseForm from '../../Hooks/UseIfThenElseForm';
 
 import IfThenElseFormValues from '../../Interfaces/IfThenElseFormValues';
 import Button from '../../UI/Button/Button';
+import generateText from '../../utils/generateText';
 
 interface MessageEditorProps {
   arrVarNames: string[],
@@ -67,7 +68,9 @@ function MessageEditor({
     if (textArea) textArea.focus();
   };
   const handleButtonClick = (): void => {
-    console.log(values);
+    console.log(generateText(values, {
+      firstname: 'Alex', lastname: 'Tov', company: '111', position: '222'
+    }));
   };
   const retrieveCursorPosition = (evt: { target: { name: any; selectionStart: any; }; }): void => {
     setCursorPosition({ name: evt.target.name, cursorPosition: evt.target.selectionStart });
