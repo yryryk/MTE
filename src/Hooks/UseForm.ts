@@ -4,7 +4,7 @@ import InputValues from '../Interfaces/InputValues';
 
 // Пользовательский хук
 // Передать аргументами начальные значения для полей вода
-export default function UseForm(inputValues: InputValues) {
+export default function useForm(inputValues: InputValues) {
   const [values, setValues] = useState(inputValues);
   // Обработчик переназначает value в useState для изменившегося поля ввода
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

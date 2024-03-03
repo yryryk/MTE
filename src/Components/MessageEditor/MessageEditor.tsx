@@ -8,18 +8,22 @@ import UseIfThenElseForm from '../../Hooks/UseIfThenElseForm';
 
 import IfThenElseFormValues from '../../Interfaces/IfThenElseFormValues';
 import Button from '../../UI/Button/Button';
-import generateText from '../../utils/generateText';
+import generateKeyFromWord from '../../utils/generateKeyFromWord';
 
 interface MessageEditorProps {
   arrVarNames: string[],
   callbackSave: () => void,
   template?: IfThenElseFormValues
+  handleCloseMessageEditor: () => void,
+  handleOpenMessagePreview: (newTemplate: IfThenElseFormValues) => void,
 }
 
 function MessageEditor({
   arrVarNames,
   callbackSave,
-  template
+  template,
+  handleCloseMessageEditor,
+  handleOpenMessagePreview,
 }:MessageEditorProps) {
   const {
     values,
@@ -35,7 +39,6 @@ function MessageEditor({
   useEffect(() => {
     if (nameOfRemovedBlockString.name) {
       setCursorPosition({ name: nameOfRemovedBlockString.name, cursorPosition: 0 });
-      console.log(nameOfRemovedBlockString);
     }
   }, [nameOfRemovedBlockString]);
   const newCounter = +counter + 1;
@@ -67,13 +70,11 @@ function MessageEditor({
     const textArea: HTMLTextAreaElement | null = document.querySelector(`[name = ${cursorPosition.name}]`);
     if (textArea) textArea.focus();
   };
-  const handleButtonClick = (): void => {
-    console.log(generateText(values, {
-      firstname: 'Alex', lastname: 'Tov', company: '111', position: '222'
-    }));
-  };
   const retrieveCursorPosition = (evt: { target: { name: any; selectionStart: any; }; }): void => {
     setCursorPosition({ name: evt.target.name, cursorPosition: evt.target.selectionStart });
+  };
+  const handleUseMessagePreview = (): void => {
+    handleOpenMessagePreview(values);
   };
 
   return (
@@ -81,7 +82,7 @@ function MessageEditor({
       <h1 className={styles.heading}>Message Template Editor</h1>
       <div className={styles.buttonsSubstitutesContainer}>
         {[...arrVarNames].map((item) => (
-          <Button key={item} type="button" text={`{${item}}`} handleClick={handleInsertButtonClick} />
+          <Button key={generateKeyFromWord(item)} type="button" text={`{${item}}`} handleClick={handleInsertButtonClick} />
         ))}
       </div>
       <Button type="button" text="Add If-Then-Else Block" handleClick={handleAddClick} />
@@ -90,9 +91,9 @@ function MessageEditor({
           <TextAreasResult name="main" values={values} handleChange={handleChange} retrieveCursorPosition={retrieveCursorPosition} removeIfThenElseBlock={removeIfThenElseBlock} />
         </div>
         <div className={styles.buttonsConditionsContainer}>
-          <Button type="button" text="Preview" handleClick={handleButtonClick} />
+          <Button type="button" text="Preview" handleClick={handleUseMessagePreview} />
           <Button type="submit" text="Save" handleClick={callbackSave} />
-          <Button type="button" text="Close" handleClick={handleButtonClick} />
+          <Button type="button" text="Close" handleClick={handleCloseMessageEditor} />
         </div>
       </form>
     </div>
