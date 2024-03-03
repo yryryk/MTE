@@ -5,6 +5,7 @@ import styles from './App.module.css';
 import MessageEditor from '../Components/MessageEditor/MessageEditor';
 import MessagePreview from '../Components/MessagePreview/MessagePreview';
 import IfThenElseFormValues from '../Interfaces/IfThenElseFormValues';
+import inputValues from '../Interfaces/InputValues';
 import Button from '../UI/Button/Button';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
   const [isMessagePreviewOpen, setIsMessagePreviewOpen] = useState(false);
   const [isStartWindowOpen, setIsStartWindowOpen] = useState(true);
   const [template, setTemplate] = useState<IfThenElseFormValues>({});
+  const [variables, setVariables] = useState<inputValues>({});
   const [arrVarNames, setArrVarNames] = useState<string[]>([]);
   useEffect(() => {
     setTemplate({
@@ -41,11 +43,10 @@ function App() {
     setIsMessagePreviewOpen(false);
     setIsStartWindowOpen(true);
   };
-  const handleOpenMessagePreview = (newTemplate: IfThenElseFormValues): void => {
+  const handleOpenMessagePreview = (): void => {
     setIsMessageEditorOpen(false);
     setIsMessagePreviewOpen(true);
     setIsStartWindowOpen(false);
-    setTemplate(newTemplate);
   };
 
   return (
@@ -57,6 +58,7 @@ function App() {
         callbackSave={handleOpenStartWindow}
         handleCloseMessageEditor={handleOpenStartWindow}
         handleOpenMessagePreview={handleOpenMessagePreview}
+        setTemplate={setTemplate}
       />
       )}
       {isMessagePreviewOpen && (
@@ -64,6 +66,8 @@ function App() {
         arrVarNames={['firstname', 'lastname', 'company', 'position']}
         template={template}
         handleCloseMessagePreview={handleOpenMessageEditor}
+        variables={variables}
+        setVariables={setVariables}
       />
       )}
       {isStartWindowOpen && <Button type="button" text="Open MTE" handleClick={handleOpenMessageEditor} />}

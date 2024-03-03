@@ -15,7 +15,8 @@ interface MessageEditorProps {
   callbackSave: () => void,
   template?: IfThenElseFormValues
   handleCloseMessageEditor: () => void,
-  handleOpenMessagePreview: (newTemplate: IfThenElseFormValues) => void,
+  handleOpenMessagePreview: () => void,
+  setTemplate: (newTemplate: IfThenElseFormValues) => void,
 }
 
 function MessageEditor({
@@ -24,6 +25,7 @@ function MessageEditor({
   template,
   handleCloseMessageEditor,
   handleOpenMessagePreview,
+  setTemplate,
 }:MessageEditorProps) {
   const {
     values,
@@ -74,7 +76,8 @@ function MessageEditor({
     setCursorPosition({ name: evt.target.name, cursorPosition: evt.target.selectionStart });
   };
   const handleUseMessagePreview = (): void => {
-    handleOpenMessagePreview(values);
+    handleOpenMessagePreview();
+    setTemplate(values);
   };
 
   return (
