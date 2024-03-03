@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import styles from './MessagePreview.module.css';
 
-import useForm from '../../Hooks/UseForm';
+import useForm from '../../Hooks/useForm';
 import IfThenElseFormValues from '../../Interfaces/IfThenElseFormValues';
 import inputValues from '../../Interfaces/InputValues';
 import Button from '../../UI/Button/Button';

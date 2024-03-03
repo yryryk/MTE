@@ -4,6 +4,7 @@ import styles from './App.module.css';
 
 import MessageEditor from '../Components/MessageEditor/MessageEditor';
 import MessagePreview from '../Components/MessagePreview/MessagePreview';
+import useLocalStorage from '../Hooks/useLocalStorage';
 import IfThenElseFormValues from '../Interfaces/IfThenElseFormValues';
 import inputValues from '../Interfaces/InputValues';
 import Button from '../UI/Button/Button';
@@ -12,27 +13,19 @@ function App() {
   const [isMessageEditorOpen, setIsMessageEditorOpen] = useState(false);
   const [isMessagePreviewOpen, setIsMessagePreviewOpen] = useState(false);
   const [isStartWindowOpen, setIsStartWindowOpen] = useState(true);
-  const [template, setTemplate] = useState<IfThenElseFormValues>({});
+  const [currentTemplate, setCurrentTemplate] = useState<IfThenElseFormValues>({});
   const [variables, setVariables] = useState<inputValues>({});
   const [arrVarNames, setArrVarNames] = useState<string[]>([]);
+  const [template, setTemplate] = useLocalStorage<IfThenElseFormValues>('template', {
+    counter: '0',
+    main: ''
+  });
   useEffect(() => {
-    setTemplate({
-      counter: '1',
-      main: {
-        first: 'first_0',
-        last: 'last_0',
-        if: 'if_0',
-        then: 'then_0',
-        else: 'else_0'
-      },
-      first_0: 'превед',
-      last_0: ' медвед',
-      if_0: '{firstname}',
-      then_0: ' {firstname}!',
-      else_0: ' {lastname}!'
-    });
     setArrVarNames(['firstname', 'lastname', 'company', 'position']);
   }, []);
+  useEffect(() => {
+    setCurrentTemplate(template);
+  }, [template]);
   const handleOpenMessageEditor = (): void => {
     setIsMessageEditorOpen(true);
     setIsMessagePreviewOpen(false);
@@ -48,23 +41,26 @@ function App() {
     setIsMessagePreviewOpen(true);
     setIsStartWindowOpen(false);
   };
+  const callbackSave = async (newTemplate: IfThenElseFormValues): Promise<void> => {
+    await setTemplate(newTemplate);
+  };
 
   return (
     <main className={styles.page}>
       {isMessageEditorOpen && (
       <MessageEditor
         arrVarNames={arrVarNames}
-        template={template}
-        callbackSave={handleOpenStartWindow}
+        template={currentTemplate}
+        callbackSave={callbackSave}
         handleCloseMessageEditor={handleOpenStartWindow}
         handleOpenMessagePreview={handleOpenMessagePreview}
-        setTemplate={setTemplate}
+        setTemplate={setCurrentTemplate}
       />
       )}
       {isMessagePreviewOpen && (
       <MessagePreview
         arrVarNames={['firstname', 'lastname', 'company', 'position']}
-        template={template}
+        template={currentTemplate}
         handleCloseMessagePreview={handleOpenMessageEditor}
         variables={variables}
         setVariables={setVariables}

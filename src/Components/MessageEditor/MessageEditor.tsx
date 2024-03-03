@@ -4,7 +4,7 @@ import styles from './MessageEditor.module.css';
 
 import TextAreasResult from './TextAreasResult/TextAreasResult';
 
-import UseIfThenElseForm from '../../Hooks/UseIfThenElseForm';
+import useIfThenElseForm from '../../Hooks/useIfThenElseForm';
 
 import IfThenElseFormValues from '../../Interfaces/IfThenElseFormValues';
 import Button from '../../UI/Button/Button';
@@ -12,7 +12,7 @@ import generateKeyFromWord from '../../utils/generateKeyFromWord';
 
 interface MessageEditorProps {
   arrVarNames: string[],
-  callbackSave: () => void,
+  callbackSave: (newTemplate: IfThenElseFormValues) => Promise<void>,
   template?: IfThenElseFormValues
   handleCloseMessageEditor: () => void,
   handleOpenMessagePreview: () => void,
@@ -35,7 +35,7 @@ function MessageEditor({
     insertIfThenElseBlock,
     removeIfThenElseBlock,
     sublevelString
-  } = UseIfThenElseForm({ ...template });
+  } = useIfThenElseForm({ ...template });
   const [counter, setCounter] = useState(Number(values.counter));
   const [cursorPosition, setCursorPosition] = useState({ name: sublevelString('main', 'first'), cursorPosition: 0 });
   useEffect(() => {
@@ -79,6 +79,10 @@ function MessageEditor({
     handleOpenMessagePreview();
     setTemplate(values);
   };
+  const handleSave = async (evt: any) => {
+    evt.preventDefault();
+    await callbackSave(values);
+  };
 
   return (
     <div className={styles.container}>
@@ -95,7 +99,7 @@ function MessageEditor({
         </div>
         <div className={styles.buttonsConditionsContainer}>
           <Button type="button" text="Preview" handleClick={handleUseMessagePreview} />
-          <Button type="submit" text="Save" handleClick={callbackSave} />
+          <Button type="submit" text="Save" handleClick={handleSave} />
           <Button type="button" text="Close" handleClick={handleCloseMessageEditor} />
         </div>
       </form>

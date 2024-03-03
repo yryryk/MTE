@@ -4,7 +4,7 @@ import IfThenElseFormValues from '../Interfaces/IfThenElseFormValues';
 
 // Пользовательский хук
 // Передать аргументами начальные значения для полей вода
-export default function UseIfThenElseForm(inputValues: IfThenElseFormValues) {
+export default function useIfThenElseForm(inputValues: IfThenElseFormValues) {
   const [values, setValues] = useState(inputValues);
   const [nameOfRemovedBlockString, setNameOfRemovedBlockString] = useState({ name: '' });
   // Функция возвращающая переданный объект без переданного свойства
