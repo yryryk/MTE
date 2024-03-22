@@ -1,5 +1,3 @@
-Проект не завершён.
-
 ## Available Scripts
 
 ### `npm start`
